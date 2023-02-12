@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+    <head>
+        <title>Deep Dive into Data</title>
+        <link rel='stylesheet' type='text/css' href='common.css' />
+        <link rel='stylesheet' type='text/css' href='rSlider.min.css' />
+        <link rel='stylesheet' type='text/css' href='https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css'>
+    </head>
+    <body>
+        <nav>
+            <div class="nav-left">
+                <a href="/"><span class="dot">H</span></a>
+                <a href="/">Homelessness in Australia</a>
+            </div>
+            
+            <div class="nav-right">
+                <a href="glance"><i class="far fa-eye"></i>Glance at the Homescape</a>
+                <a href="dive"><i class="fas fa-microscope"></i>Peer into Data for Homelessness</a>
+            </div>           
+        </nav>
+        <main class="glance-main">
+            <div class='filter-container'>
+                <div class="group-filter-container">
+                    <h2>Group</h2>
+                    <fieldset>
+                        <h3>Types of People</h3>
+                        <input type='radio' class='input-group' id='both-group' name='group-type' value='both-group' checked>
+                        <label for='both-group'>Both</label>
+                        <input type='radio' class='input-group' id='homeless' name='group-type' value='homeless'>
+                        <label for='homeless'>Homeless</label>
+                        <input type='radio' class='input-group' id='at-risk' name='group-type' value='at_risk'>
+                        <label for='at-risk'>At Risk</label>
+                    </fieldset>
+                    <fieldset>
+                        <h3>Gender</h3>
+                        <input type='radio' class='input-group' id='both-gender' name='gender' value='both-gender' checked>
+                        <label for='both-gender'>Both</label>
+                        <input type='radio' class='input-group' id='male' name='gender' value='male'>
+                        <label for='male'>Male</label>
+                        <input type='radio' class='input-group' id='female' name='gender' value='female'>
+                        <label for='female'>Female</label>
+                    </fieldset>
+                    <fieldset>
+                        <h3>Age Range</h3>
+                        <div class="range-slider-container">
+                            <input type='text' class='input-group' id='diveSlider' />
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="location-filter-container">
+                    <h2>Location</h2>
+                    <div>
+                        <button class='btn location' id='loc-states'>States--All--</button>
+                        <button class='btn location' id='loc-lgas'>LGAs</button>
+                    </div>
+                    <div id='lga-temp-container'></div>    
+                </div>
+                <div class="reset-button-container">
+                    <button class='btn' id='reset-query'>Reset the search options</button>              
+                </div>                
+            </div>
+
+            <!-- States Pop-up -->
+            <div class='loc-pop-up state-filter-container' id='loc-states-pop-up'>
+                <h3>Select States</h3>
+                <table id="table-states" class="display">
+                    <thead>
+                        <tr>
+                            <th class='th-select'>Select</th>
+                            <th>State Name</th>
+                            <th>Abbreviation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type='checkbox' name='states' id='NSW' value='NSW' checked>
+                            </td>
+                            <td>
+                                <label for='NSW'>New South Wales</label>
+                            </td>
+                            <td>
+                                <span>NSW</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type='checkbox' name='states' id='VIC' value='VIC' checked>
+                            </td>
+                            <td>
+                                <label for='VIC'>Victoria</label>
+                            </td>
+                            <td>
+                                <span>VIC</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type='checkbox' name='states' id='QLD' value='QLD' checked>
+                            </td>
+                            <td>
+                                <label for='QLD'>Queensland</label>
+                            </td>
+                            <td>
+                                <span>QLD</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type='checkbox' name='states' id='SA' value='SA' checked>
+                            </td>
+                            <td>
+                                <label for='SA'>South Australia</label>
+                            </td>
+                            <td>
+                                <span>SA</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type='checkbox' name='states' id='WA' value='WA' checked>
+                            </td>
+                            <td>
+                                <label for='WA'>West Australia</label>
+                            </td>
+                            <td>
+                                <span>WA</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type='checkbox' name='states' id='TAS' value='TAS' checked>
+                            </td>
+                            <td>
+                                <label for='TAS'>Tasmania</label>
+                            </td>
+                            <td>
+                                <span>TAS</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type='checkbox' name='states' id='NT' value='NT' checked>
+                            </td>
+                            <td>
+                                <label for='NT'>Northern Territory</label>
+                            </td>
+                            <td>
+                                <span>NT</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type='checkbox' name='states' id='ACT' value='ACT' checked>
+                            </td>
+                            <td>
+                                <label for='ACT'>Australian Capital Territory</label>
+                            </td>
+                            <td>
+                                <span>ACT</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type='checkbox' name='states' id='OTHER'value='OTHER' checked>
+                            </td>
+                            <td>
+                                <label for='OTHER'>Other Australian Territories</label>
+                            </td>
+                            <td>
+                                <span>OHTER</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="checkbox-helper">
+                    <button id="selectAllStates"><span>Select All</span></button>
+                    <button id="selectNoStates"><span>Clear</span></buttn>
+                </div>
+                <div class="pop-up-button-conatiner">
+                    <button class='btn' id='states-ok-button'>Ok</button>
+                    <button class='btn' id='states-cancel-button'>Cancel</button>
+                </div>
+                
+            </div>
+            <!-- LGAs Pop-up -->
+            <div class='loc-pop-up lga-filter-container' id='loc-lgas-pop-up'>                
+    
+            </div>
+            
+            <!-- Overlay on Pop-up-->
+            <div class="pop-up-overlay">
+            </div>
+            
+            <div class="result-container">
+                <h1>Population</h1>
+                <label for='sort-by'>Sort by</label>
+                <select name='sort-by' id='sort-by'>
+                    <option value='lgas'>LGAs</option>
+                    <option value='states'>States</option>
+                </select>   
+                <div id='ajax-container'></div>
+
+                
+            </div>
+
+            
+        </main>
+
+        </main>
+        <script src='https://code.jquery.com/jquery-3.6.0.js' integrity='sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk='crossorigin='anonymous'></script>
+        <script src='https://kit.fontawesome.com/61c33756d5.js' crossorigin='anonymous'></script>
+        <script src='rSlider.min.js'></script>
+        <script type='text/javascript' charset='utf8' src='https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js'></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.3.2/dist/chart.min.js"></script>
+        <script src='script.js'></script>
+    </body>
+</html>
